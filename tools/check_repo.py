@@ -10,10 +10,14 @@ Run from anywhere: python3 tools/check_repo.py [ROOT]
   4. Every skill has a SKILL.md whose `name` equals its folder and whose `description` is set.
   5. .mcp.json uses the `mcpServers` key and every server has a valid type and target.
   6. docs/ is an Open Knowledge Format 0.2 bundle (ADR 0005): every page, the glossary and every spec carry
-     frontmatter with a `type`; every page is listed in the nearest index.md; indexes hold only headings and
-     entries whose local links resolve; the log has date headings, newest first, and every entry links a page.
-  7. Every spec with `status: stable` has the required sections in order, unique FR and SC numbers and no
-     open clarification (ADR 0007).
+     frontmatter with a `type`, and a `status`, when set, is draft, stable or deprecated; every page is listed
+     in the nearest index.md; indexes hold only headings and entries whose local links resolve; the log has
+     date headings, newest first, and every entry links a page. Whether a change has a log entry is not
+     checked: that needs the diff, and is left to review.
+  7. Every spec has a status; every spec with `status: stable` (approved) has the required sections in order,
+     unique FR and SC numbers and no open clarification (ADR 0007).
+
+Folders named .git, node_modules, apm_modules, .scratch and raw are skipped at any depth.
 
 Standard library only. Exit code 1 on any finding.
 """
@@ -24,6 +28,7 @@ import sys
 from pathlib import Path
 
 SKIP = {".git", "node_modules", "apm_modules", ".scratch", "raw"}
+STATUSES = ("draft", "stable", "deprecated")
 SPEC_SECTIONS = ["Intent", "User scenarios", "Requirements", "Success criteria", "Out of scope"]
 ENTRY = re.compile(r"^\* \[[^\]]+\]\(([^)]+)\) - \S")
 DAY = re.compile(r"^## (\d{4}-\d{2}-\d{2})$", re.M)
@@ -177,6 +182,8 @@ class Checker:
             fm, _ = frontmatter(page)
             if not str(fm.get("type", "")).strip():
                 self.fail(page, "no OKF frontmatter with a `type`; see docs/guide.md")
+            if "status" in fm and fm["status"] not in STATUSES:
+                self.fail(page, f"status {fm['status']!r} is not one of {', '.join(STATUSES)} (OKF 0.2)")
         for index in walk(docs, "index.md"):
             self.index(index, docs)
         for page in pages:
@@ -219,6 +226,8 @@ class Checker:
             if spec.name.endswith(".plan.md"):
                 continue
             fm, body = frontmatter(spec)
+            if "status" not in fm:
+                self.fail(spec, "no status; a spec is `draft` until it is approved, then `stable`")
             if fm.get("status") != "stable":
                 continue
             headings = re.findall(r"^## (.+?)\s*$", body, flags=re.M)

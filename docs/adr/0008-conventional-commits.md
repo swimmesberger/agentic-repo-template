@@ -16,4 +16,4 @@ When agents write most commits, free-form messages turn into a history nobody ca
 
 ## Consequences
 
-`tools/check_commits.py` checks every commit of a pull request and its title in CI, and `tools/hooks/commit-msg` checks locally when enabled with `git config core.hooksPath tools/hooks`. Merge commits are skipped; `fixup!` and `squash!` commits pass locally and fail in CI, so they get squashed before merge.
+`tools/check_commits.py` checks every commit of a pull request and its title in CI, and `tools/hooks/commit-msg` checks locally when enabled with `git config core.hooksPath tools/hooks`. Merge commits are skipped; `fixup!`, `squash!` and `amend!` commits pass locally and fail in CI, so they get squashed before merge.

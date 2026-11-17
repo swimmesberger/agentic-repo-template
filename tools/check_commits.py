@@ -2,11 +2,12 @@
 """Check commit messages and pull request titles against Conventional Commits 1.0.0 (spec 0002, ADR 0008).
 
 Usage:
-  tools/check_commits.py [RANGE]        every commit in RANGE, default origin/main..HEAD (CI, before a push)
+  tools/check_commits.py [RANGE]        every commit in RANGE, default <remote default branch>..HEAD,
+                                        for example origin/main..HEAD (CI, before a push)
   tools/check_commits.py --title TEXT   one pull request title (CI)
   tools/check_commits.py --file PATH    one message file, as git passes it to the commit-msg hook
 
-Merge commits are skipped. `fixup!` and `squash!` commits pass the hook, so they can be autosquashed,
+Merge commits are skipped. `fixup!`, `squash!` and `amend!` commits pass the hook, so they can be autosquashed,
 and fail a range check, so they do not reach main. Standard library only. Exit code 1 on any finding.
 """
 import re
@@ -42,6 +43,12 @@ def problems(message: str, allow_fixup: bool = False) -> list[str]:
     return found
 
 
+def default_base() -> str:
+    """The remote's default branch (origin/HEAD), falling back to origin/main."""
+    out = subprocess.run(["git", "symbolic-ref", "--quiet", "--short", "refs/remotes/origin/HEAD"], capture_output=True, text=True)
+    return out.stdout.strip() or "origin/main"
+
+
 def commits(rev_range: str) -> list[tuple[str, str]]:
     """Return (short sha, full message) for every non-merge commit in the range, oldest first."""
     out = subprocess.run(
@@ -59,7 +66,7 @@ def main(argv: list[str]) -> int:
             found = problems(f.read(), allow_fixup=True)
     elif len(argv) <= 1 and not (argv and argv[0].startswith("-")):
         try:
-            found = [f"{sha} {p}" for sha, message in commits(argv[0] if argv else "origin/main..HEAD") for p in problems(message)]
+            found = [f"{sha} {p}" for sha, message in commits(argv[0] if argv else f"{default_base()}..HEAD") for p in problems(message)]
         except subprocess.CalledProcessError as e:
             print(e.stderr.strip() or e, file=sys.stderr)
             return 2

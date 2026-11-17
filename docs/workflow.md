@@ -31,8 +31,8 @@ Steps 1 to 4 cost minutes to correct, steps 5 and 6 hours. The order exists to m
 |---|---|---|
 | Typo, one-line fix, dependency bump | 5, 6 | Describe it, let the agent fix it with a test, read the diff |
 | Bug | 1 (reproduce), 5, 6, often 7 | `diagnosing-bugs`: reproduce, a failing test first, fix; if the agent got something wrong twice, add a rule |
-| Small feature, one session | 1, 2, 5, 6 | `grill-with-docs`, then `to-spec`, approve, `implement` on the same branch, `code-review` |
-| Feature, several sessions | all | Spec and plan approved, `to-tickets`, one ticket per fresh session with `implement`, `code-review` per pull request |
+| Small feature, one session | 1, 2, 5, 6 | `grill-with-docs`, then `to-spec`, approve, create the `feat/<slug>` branch, `implement`, `code-review` |
+| Feature, several sessions | all | Spec and plan approved, `to-tickets`, one branch and one fresh session per ticket with `implement`, `code-review` per pull request |
 | Migration, large refactoring | all, plus a fixed oracle | The existing tests, stored reference outputs or characterisation tests exist before the work starts, and the agent may not change them; mechanical rules become a reviewed script or codemod instead of being applied by hand |
 | Exploring an idea | none yet | Prototype on a throwaway branch; what survives starts again at step 1 |
 
@@ -74,7 +74,8 @@ Two kinds sit in `.agents/skills/`. Ours (`adr`, `spec`, `verify`) know this rep
 |---|---|---|---|
 | `grill-with-docs` | Starting anything bigger than a fix: it interviews you one question at a time | `AGENTS.md`, glossary, ADRs, code | Terms into `GLOSSARY.md`, ADRs into `docs/adr/` as they settle (through `domain-modeling`) |
 | `grill-me` | Stress-testing a plan without touching docs | the plan | nothing |
-| `research` | A question needs primary sources | the web, docs | A note in `docs/sources/` with `type: Source` |
+| `grilling`, `domain-modeling` | Loaded by the two above; call `domain-modeling` by name when the glossary stays unchanged after a grilling session, which the upstream docs name as the common failure | glossary, ADRs | Terms, and ADRs in the skill's short format (add our frontmatter) |
+| `research` | A question needs primary sources | the web, docs | A note in `docs/research/` with `type: Research note` |
 | `spec` | You want a spec written in this repository's format, with an interview | glossary, ADRs | `specs/NNNN-slug.md`, `.plan.md` |
 | `to-spec` | The conversation already settled the feature | the conversation, code | Spec and plan files in `specs/`, then an issue linking them (`docs/agents/issue-tracker.md`) |
 | `to-tickets` | A spec is approved and needs more than one session | spec, ADRs | Issues with blocking edges, each naming its FR numbers |
@@ -85,9 +86,9 @@ Two kinds sit in `.agents/skills/`. Ours (`adr`, `spec`, `verify`) know this rep
 | `handoff` | A session has to end mid-task | the conversation | A handoff document for the next session |
 | `writing-for-agents` | Editing `AGENTS.md`, a rule or a skill | the file | A shorter, sharper file |
 | `adr` | A decision is hard to reverse, surprising, and a real trade-off | `docs/adr/README.md` | An ADR, its index entry and a log entry |
-| `verify` | Before you say you are done | `AGENTS.md` | A report of `make check` |
+| `verify` | Before you say you are done | the Makefile | A report of `make check` and `make check-commits` |
 
-Skills that create files under `docs/` do not know the Open Knowledge Format; `make check` lists what still needs frontmatter, an index entry or a log entry. To update the Pocock skills, change the pin in `apm.yml`, run `apm install`, read the diff of `.agents/skills/` like any other dependency update, and run `make check`.
+Skills that create files under `docs/` do not know the Open Knowledge Format; `make check` lists what still needs frontmatter or an index entry, and the log entry is checked in review. `docs/agents/` also mentions skills that are not installed here (`triage`, `wayfinder`, `improve-codebase-architecture`); add them to `apm.yml` when a team wants them. Set the branch before `implement`: it commits to whatever branch is checked out. To update the Pocock skills, change the pin in `apm.yml`, run `apm install`, read the diff of `.agents/skills/` like any other dependency update, and run `make check`.
 
 ## Sources
 

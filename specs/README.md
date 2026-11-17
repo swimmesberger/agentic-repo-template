@@ -16,6 +16,8 @@ A spec says what a change must do before anyone, human or agent, writes code for
 
 Both carry Open Knowledge Format frontmatter (`type: Specification` and `type: Plan`), like every page under `docs/`, so one checker and one reader handle all of them.
 
+A spec's `status` is its approval state, and every spec has one: `draft` while it is written and discussed, `stable` once a person has approved it, `deprecated` when the feature is gone or a later spec replaces it. Approval is the checkpoint before any code is written.
+
 ## Spec format
 
 Sections in this order, headings as written:
@@ -37,7 +39,7 @@ Free-form, but it answers: which modules change, which interfaces appear, what d
 
 ## Done
 
-A spec is done when every acceptance scenario has a passing test named after it, every open `[NEEDS CLARIFICATION]` is resolved, and the pull request links the spec. `tools/check_repo.py` checks the sections, the numbering and the open clarifications of every spec whose `status` is `stable`.
+A spec is done when every acceptance scenario has a passing test named after it, every open `[NEEDS CLARIFICATION]` is resolved, and the pull request links the spec. `tools/check_repo.py` checks that every spec has a status, and the sections, the numbering and the open clarifications of every approved (`stable`) spec. Headings must match exactly, including case.
 
 ## Why this format
 

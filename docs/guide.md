@@ -21,7 +21,8 @@ This folder is what an agent knows about the project beyond the code. It is an O
 | How the system is shaped and why | `architecture.md` and other compiled pages | secondary, compiled from code, ADRs and sources | on demand |
 | How the engineering skills find the tracker and the domain docs | `agents/` | primary, seeded from the skills' setup | by the skills |
 | How we work: steps, practices, skills | `workflow.md` | secondary | on demand, pointed to from `AGENTS.md` |
-| Raw material as received: notes, mails, research, requirements from outside | `sources/` | primary, never edited | when a compiled page needs checking |
+| Research notes: an agent's or a person's synthesis of outside material, with its URLs | `research/` | secondary, `type: Research note` | on demand |
+| Raw material as received: notes, mails, requirements from outside | `sources/` | primary, never edited | when a compiled page needs checking |
 | What changed in this folder and why | `log.md` | newest first, entries never edited | on demand |
 | Files that cannot carry frontmatter (PDF, HTML, office files) | `../raw/`, outside the bundle | primary, never edited | when a source page points there |
 | Working notes for one task, handoffs between sessions | `../.scratch/`, ignored by git | ephemeral | per task |
@@ -37,8 +38,11 @@ title: "Architecture"
 description: "One sentence on what the page is for."
 generated: { by: claude-code/<model>, at: 2026-11-17T12:00:00Z }   # or human:<id>
 verified: [{ by: human:<id>, at: 2026-11-18 }]                      # only once a person has read it
-status: draft                    # draft | stable | deprecated
+status: draft                    # draft | stable | deprecated; the checker rejects other values
 stale_after: 2027-06-30          # optional: date after which the page must be re-checked
+sources:                         # optional: where the content comes from
+  - https://example.com/origin
+superseded_by: 0009              # ADRs only, with status: deprecated
 ---
 ```
 
@@ -51,7 +55,7 @@ A page without `verified` counts as unverified, which is the honest default for 
 - **Compiled pages cite their sources** under a `Sources` heading at the bottom.
 - **Update in the same change.** A pull request that changes behaviour updates the page that describes it. A page nobody updates is deleted: stale knowledge is loaded with the same confidence as fresh knowledge.
 - **Every page is in its index.** A page not listed does not exist for the agent. Adding, renaming or removing a page means editing the index in the same change.
-- **One log entry per change**, added with `tools/log_add.py`: `* **Operation**: what changed and why, with a [link](page.md)` under a `## YYYY-MM-DD` heading, newest day and newest entry first. Link the one to three pages that carry the change.
+- **One log entry per change**, added with `tools/log_add.py` (the checker verifies the log's form, not that your change has an entry; review does): `* **Operation**: what changed and why, with a [link](page.md)` under a `## YYYY-MM-DD` heading, newest day and newest entry first. Link the one to three pages that carry the change.
 - **No harness memory.** What an agent would have remembered goes into one of the files above (ADR 0006).
 
 ## Sources

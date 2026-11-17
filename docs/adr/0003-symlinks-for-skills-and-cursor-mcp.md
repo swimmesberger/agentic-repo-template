@@ -11,4 +11,4 @@ Skills live in `.agents/skills/`, which Codex, Copilot and Cursor read; `.claude
 
 ## Consequences
 
-Windows checkouts need `core.symlinks=true` and symlink rights, or the two links replaced by copies; the checker accepts identical copies. Skills use only the `name` and `description` fields so every harness loads them.
+Windows checkouts need `core.symlinks=true` and symlink rights, or the two links replaced by copies; the checker accepts identical copies. Our own skills use only the `name` and `description` fields so every harness loads them; vendored skills may carry harness-specific fields such as `disable-model-invocation`, which harnesses that do not know them ignore.

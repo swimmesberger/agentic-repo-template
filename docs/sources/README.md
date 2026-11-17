@@ -7,4 +7,4 @@ status: stable
 ---
 # Sources
 
-Raw material as received: meeting notes, mails, requirements from outside, research reports. One file per source, named `YYYY-MM-DD-topic.md`, with frontmatter (`type: Source`, `title`, `description` saying where it came from) and the body exactly as it arrived. Never edited. Files that cannot carry frontmatter go to `../../raw/` with a source page here that points to them. Rules in [../guide.md](../guide.md).
+Raw material as received: meeting notes, mails, requirements from outside. Research notes that synthesise outside material go to `../research/` instead. One file per source, named `YYYY-MM-DD-topic.md`, with frontmatter (`type: Source`, `title`, `description` saying where it came from) and the body exactly as it arrived. Never edited. Files that cannot carry frontmatter go to `../../raw/` with a source page here that points to them. Rules in [../guide.md](../guide.md).

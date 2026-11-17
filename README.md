@@ -23,7 +23,7 @@ Agents read `AGENTS.md`; this README is for people.
 5. **Spec before code, what apart from how.** A spec states user scenarios, numbered requirements in RFC 2119 language and success criteria; implementation decisions go into a plan file or an ADR. The spec survives a later move to any spec framework. ([ADR 0007](docs/adr/0007-one-spec-file-per-feature.md))
 6. **Humans approve, agents execute.** The agent does the work; a person approves the spec and the plan before code exists and reads every diff before it is merged. The amount of process scales with the change, from a one-line fix to a migration. ([docs/workflow.md](docs/workflow.md))
 7. **History is readable.** Commit messages and pull request titles follow Conventional Commits; the person who commits owns the change. ([ADR 0008](docs/adr/0008-conventional-commits.md))
-8. **A checker, not discipline.** `make check` fails when a router, mirror, link, index, log or spec drifts, and CI rejects commits that are not Conventional Commits.
+8. **A checker, not discipline.** `make check` fails when instructions, skills, the bundle or a spec drift, and CI rejects commits that are not Conventional Commits. What the checks cover is listed below; what they cannot see (whether a change has its log entry, whether a glossary holds only terms) is left to review.
 
 ## The map
 
@@ -39,7 +39,9 @@ Agents read `AGENTS.md`; this README is for people.
 | `docs/workflow.md` | How we work: the steps and checkpoints, how much process a change needs, practices, which skill does what |
 | `docs/agents/` | Where the engineering skills find the issue tracker and the domain docs (what `setup-matt-pocock-skills` would write) |
 | `docs/architecture.md` | Compiled page: the system's shape and why, citing ADRs and sources |
-| `docs/sources/` | Raw material that can carry frontmatter, stored as received, never edited |
+| `docs/research/` | Research notes: syntheses of outside material, each citing its URLs |
+| `docs/sources/` | Material received from outside that can carry frontmatter, stored as received, never edited |
+| `raw/` (create when needed) | Files that cannot carry frontmatter (PDF, HTML, office files), outside the bundle; the checker skips it |
 | `specs/` | One spec per feature (`NNNN-slug.md`) and its plan (`NNNN-slug.plan.md`); format in `specs/README.md` |
 | `.agents/skills/` | Procedures in the Agent Skills format: ours (`adr`, `spec`, `verify`) and Matt Pocock's engineering skills, deployed by APM |
 | `.claude/skills` | Symlink to `.agents/skills` |
@@ -47,12 +49,34 @@ Agents read `AGENTS.md`; this README is for people.
 | `.claude/rules/*.md` | Mirror for Claude Code: same globs under `paths`, body is one pointer sentence |
 | `.github/copilot-instructions.md` | Pointer for Copilot surfaces that do not read `AGENTS.md` |
 | `.mcp.json`, `.cursor/mcp.json` | MCP servers under `mcpServers`; the Cursor file is a symlink |
-| `.claude/settings.json`, `.vscode/settings.json` | Memory off, nested `AGENTS.md` on |
-| `apm.yml`, `apm.lock.yaml` | The shared skills, pinned to a commit, through the Agent Package Manager |
+| `.claude/settings.json` | Claude Code's auto memory off |
+| `.vscode/settings.json` | VS Code's memory tool off; `AGENTS.md` and nested `AGENTS.md` files on for Copilot |
+| `.gitignore` | Ignores `.scratch/` (working notes), `.env` files and the APM cache |
+| `apm.yml`, `apm.lock.yaml` | The shared skills, pinned to a commit, through the Agent Package Manager. Never run `apm compile`: it would generate `AGENTS.md`, which is written by hand |
 | `tools/check_repo.py` | The layout checker |
 | `tools/check_commits.py`, `tools/hooks/commit-msg` | The commit message check, for CI and as a local hook |
 | `tools/log_add.py` | Adds a log entry in the right place |
-| `.github/workflows/` | `check` on every push, `commits` on every pull request |
+| `tools/tests/` | Tests of the tools, one per acceptance scenario of specs 0001 and 0002; kept apart from the project's own tests |
+| `Makefile` | `make check` (tests and repository check, offline), `make check-commits` (needs the remote) |
+| `.github/workflows/` | `check` on every push, `commits` on every pull request and title edit |
+| `.github/pull_request_template.md` | Links the spec and its FR numbers, the ADRs, and the checklist |
+
+## What the checks cover
+
+`tools/check_repo.py` ([spec 0001](specs/0001-repository-check.md)):
+
+- every `AGENTS.md` has a `CLAUDE.md` router that holds only `@AGENTS.md`;
+- every pattern rule has a mirror with the same globs and a pointer body of at most 60 words, and every mirror has a rule;
+- `.claude/skills` and `.cursor/mcp.json` are symlinks to (or identical copies of) `.agents/skills` and `.mcp.json`;
+- every skill has a `SKILL.md` with a `description` and a `name` equal to its kebab-case folder;
+- `.mcp.json` uses `mcpServers`, and every server has a valid type and its URL or command;
+- every page under `docs/`, `GLOSSARY.md` and every spec has frontmatter with a `type`, and a `status`, when set, is `draft`, `stable` or `deprecated`;
+- every page is listed in its nearest `index.md`; indexes hold only headings and entries whose local links resolve; the log is newest first and every entry links a page;
+- every spec has a status; approved (`stable`) specs have the required sections, unique FR and SC numbers and no open clarification.
+
+Folders named `.git`, `node_modules`, `apm_modules`, `.scratch` and `raw` are skipped wherever they are.
+
+`tools/check_commits.py` ([spec 0002](specs/0002-commit-check.md)) checks Conventional Commits headers: type, scope, `!`, no trailing period, at most 72 characters, a blank line before the body. It checks pull request titles and every commit of a pull request in CI, each commit locally through the hook, and a branch against the remote's default branch with `make check-commits`.
 
 ## How to work with it
 
@@ -61,7 +85,7 @@ The whole process, with the practices and a skill per step, is in [docs/workflow
 1. `/grill-with-docs`: the agent interviews you about the idea, one question at a time, and writes settled terms into `GLOSSARY.md` and decisions into `docs/adr/`.
 2. `/to-spec`: it turns the conversation into `specs/NNNN-slug.md` and a plan next to it, and opens an issue that links them. You approve the spec and the plan.
 3. `/to-tickets`, when the work needs more than one session: thin vertical slices as issues with blocking edges.
-4. `/implement` per ticket, in a fresh session each time: test-first at the agreed seams, then `code-review` on two axes (spec and standards), then a Conventional Commit.
+4. Create a branch (`feat/<slug>`), then `/implement` per ticket, in a fresh session each time: test-first at the agreed seams, then `code-review` on two axes (spec and standards), then a Conventional Commit.
 5. You read the diff, `make check` and CI pass, you merge. What the agent got wrong twice becomes a rule in `AGENTS.md`.
 
 A one-line fix skips to step 4. Spec frameworks (spec-kit, OpenSpec, Kiro) name the same steps; if a team adopts one, `AGENTS.md` has the rules for letting it in.
@@ -70,15 +94,21 @@ A one-line fix skips to step 4. Spec frameworks (spec-kit, OpenSpec, Kiro) name 
 
 New repository: click "Use this template", then
 
-1. Replace the placeholders in `AGENTS.md`, `GLOSSARY.md` and `docs/architecture.md` (search for `TODO`).
-2. Keep or delete the example spec `specs/0001-repository-check.md`; it specifies the checker in this repository and shows the format.
+1. Replace the placeholders in `AGENTS.md`, `GLOSSARY.md`, `docs/architecture.md` (search for `TODO`) and the `name` in `apm.yml`, and add the project's test command to `AGENTS.md` and the Makefile.
+2. Keep the example specs 0001 and 0002 as references for the format, or delete them; the tools' tests do not depend on them. Number your own specs after them, or from 0001 if you delete them.
 3. Add nested `AGENTS.md` files with a `CLAUDE.md` router next to each when subprojects need their own rules.
 4. Enable the commit hook with `git config core.hooksPath tools/hooks`, and run `make check`.
 5. Using GitLab or local issues instead of GitHub: replace `docs/agents/issue-tracker.md` with the matching seed from `setup-matt-pocock-skills`, or install that skill and run it.
 
-Existing repository: copy `AGENTS.md`, `CLAUDE.md`, `.agents/`, `.claude/`, `.github/instructions/`, `.github/copilot-instructions.md`, `.mcp.json`, `.cursor/`, `docs/`, `specs/`, `GLOSSARY.md` and `tools/`, move existing instruction text into `AGENTS.md`, and let `make check` tell you what is left.
+Existing repository, in this order, one pull request each so every step can be reviewed:
 
-Shared skills: the deployed skills are committed, so a clone works without any tool. To add, remove or update one, edit `apm.yml`, run `apm install` with the [Agent Package Manager](https://github.com/microsoft/apm), review the diff of `.agents/skills/` and commit it with `apm.lock.yaml`. Repositories that still have `CONTEXT.md` from before September 2026: rename it to `GLOSSARY.md` (ADR 0004).
+1. **Instructions.** Copy `AGENTS.md`, `CLAUDE.md`, `.github/copilot-instructions.md`, `.claude/settings.json`, `.vscode/settings.json` and the `.gitignore` entries. Move the text of any existing `CLAUDE.md`, `.cursorrules` or `copilot-instructions.md` into `AGENTS.md` and turn those files into routers or pointers.
+2. **Checks.** Copy `tools/`, the Makefile targets and `.github/workflows/`. If the repository already has a `Makefile` or a `tools/` folder, merge the targets and keep the template's scripts under `tools/`. If it uses husky, lefthook or pre-commit, call `tools/check_commits.py --file "$1"` from that commit-msg hook instead of setting `core.hooksPath`, which would replace it. The commit check compares against the remote's default branch, whatever it is called.
+3. **Skills and tools.** Copy `.agents/`, `.claude/skills`, `.claude/rules/`, `.github/instructions/`, `apm.yml`, `apm.lock.yaml`, `.mcp.json` and `.cursor/mcp.json`. The checker requires `.cursor/mcp.json` whenever `.mcp.json` exists.
+4. **Knowledge.** Copy `docs/guide.md`, `docs/workflow.md`, `docs/agents/`, `docs/adr/README.md`, `specs/README.md` and `GLOSSARY.md`; start `docs/index.md`, `docs/log.md` and `docs/adr/index.md` fresh. Keep the template's ADRs 0001 to 0008 if you adopt their decisions, renumbered after your own. Existing pages under `docs/` each need frontmatter and an index entry before `make check` passes; files that cannot carry frontmatter move to `raw/`. A `CONTEXT.md` from older skills becomes `GLOSSARY.md`.
+5. **Pull request template** and the branch rules, once the team has agreed to them.
+
+Shared skills: the deployed skills are committed, so a clone works without any tool. To add, remove or update one, edit `apm.yml`, run `apm install` with the [Agent Package Manager](https://github.com/microsoft/apm), review the diff of `.agents/skills/` and commit it with `apm.lock.yaml`. Repositories that still have `CONTEXT.md` from before the skills' release 1.3.0 (October 2026): rename it to `GLOSSARY.md` (ADR 0004).
 
 ## Known limits
 

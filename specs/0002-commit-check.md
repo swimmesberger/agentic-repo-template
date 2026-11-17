@@ -38,8 +38,9 @@ The key words MUST, SHOULD and MAY are to be interpreted as described in RFC 211
 - FR-002: The check MUST report a missing or unknown type, a trailing period, a header over 72 characters and a body without a blank line after the header.
 - FR-003: The check MUST be able to check a single title, a single message file and every commit of a revision range.
 - FR-004: A range check MUST skip merge commits and MUST report `fixup!`, `squash!` and `amend!` commits; a message-file check MUST accept them.
-- FR-005: Each finding SHOULD name the commit and say what to change.
-- FR-006: The check MUST NOT need anything beyond the language runtime and git.
+- FR-005: Without a range, the check MUST compare against the remote's default branch, so it works whatever that branch is called.
+- FR-006: Each finding SHOULD name the commit and say what to change.
+- FR-007: The check MUST NOT need anything beyond the language runtime and git.
 
 ## Success criteria
 

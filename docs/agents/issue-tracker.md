@@ -9,7 +9,7 @@ sources:
 ---
 # Issue tracker: GitHub
 
-Issues and specs for this repo live as GitHub issues. Use the `gh` CLI for all operations.
+Issues for this repo live as GitHub issues; specs are files in `specs/` that an issue links (see below). Use the `gh` CLI for all operations.
 
 ## Conventions
 
@@ -43,7 +43,14 @@ GitHub shares one number space across issues and PRs, so a bare `#42` may be eit
 
 Create a GitHub issue. Specs are the exception, because in this repository the spec is a file (`specs/README.md`, ADR 0007):
 
-- **A spec** (`to-spec`): write `specs/NNNN-slug.md` in the format of `specs/README.md` first. Problem statement and solution become the `## Intent`, the user stories become `## User scenarios` with Given/When/Then acceptance scenarios, and the implementation and testing decisions go into `specs/NNNN-slug.plan.md`. Then create the issue with a short summary and a link to the spec file, and apply `ready-for-agent` (create the label once with `gh label create ready-for-agent`).
+- **A spec** (`to-spec`): write `specs/NNNN-slug.md` with `status: draft` in the format of `specs/README.md` instead of the skill's own template, mapped like this:
+  - Problem Statement and Solution: `## Intent`, one paragraph.
+  - User Stories: `## User scenarios`, grouped into prioritised stories with Given/When/Then acceptance scenarios.
+  - Derive `## Requirements` (`FR-001`, RFC 2119 keywords) and `## Success criteria` (`SC-001`) from the stories; the skill's template has neither.
+  - Out of Scope: `## Out of scope`, with that exact case.
+  - Implementation Decisions, Testing Decisions and Further Notes: `specs/NNNN-slug.plan.md`; anything hard to reverse also becomes an ADR.
+
+  Then create the issue with a short summary and a link to the spec file, and apply `ready-for-agent` (create the label once with `gh label create ready-for-agent`). The person approves the spec by setting `status: stable`.
 - **A ticket** (`to-tickets`): create the issue as usual; its body links the spec file and names the FR numbers it covers.
 
 ## When a skill says "fetch the relevant ticket"

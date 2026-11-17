@@ -11,5 +11,6 @@ okf_version: "0.2"
 * [Specifications](../specs/README.md) - the spec format; one file per feature next to it.
 * [Issue tracker](agents/issue-tracker.md) - where issues, specs and tickets live, for the engineering skills.
 * [Domain docs](agents/domain.md) - how the engineering skills read the glossary, the ADRs and the specs.
+* [Research notes](research/README.md) - syntheses of outside material, each citing its URLs.
 * [Sources](sources/README.md) - raw material stored as received, with a frontmatter envelope.
 * [Update log](log.md) - what changed in this folder and why, newest first.

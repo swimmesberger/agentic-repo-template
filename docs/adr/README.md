@@ -7,7 +7,7 @@ status: stable
 ---
 # Architecture decision records
 
-An ADR records one decision that shaped this system: what we decided, in what context, and why. The folder is the memory the code cannot carry, for people and for agents. The format follows Michael Nygard's original proposal, kept deliberately short. The decisions 0001 to 0007 come with the template; keep them, or supersede them with your own.
+An ADR records one decision that shaped this system: what we decided, in what context, and why. The folder is the memory the code cannot carry, for people and for agents. The format follows Michael Nygard's original proposal, kept deliberately short. The decisions 0001 to 0008 come with the template; keep them, or supersede them with your own.
 
 ## When to write one
 
@@ -43,7 +43,7 @@ That is a complete ADR. The frontmatter is the Open Knowledge Format envelope ev
 - `## Considered options`: the alternatives, one line each, and why they lost.
 - `## Consequences`: downstream effects that are not obvious, good and bad.
 
-The OKF `status` field is the ADR's state: `draft` while proposed, `stable` once accepted, `deprecated` when superseded, with `superseded_by: NNNN` next to it.
+ADRs written by the `domain-modeling` skill follow its own short format and status words; add this frontmatter and translate the status (proposed is `draft`, accepted is `stable`, superseded is `deprecated` with `superseded_by`). The OKF `status` field is the ADR's state: `draft` while proposed, `stable` once accepted, `deprecated` when superseded, with `superseded_by: NNNN` next to it.
 
 ## Rules
 
