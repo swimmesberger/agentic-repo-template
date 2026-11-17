@@ -10,7 +10,7 @@ sys.path.insert(0, str(REPO / "tools"))
 
 from check_repo import check  # noqa: E402
 
-COPY = ["AGENTS.md", "CLAUDE.md", "CONTEXT.md", ".mcp.json", ".agents", ".claude", ".cursor", ".github", "docs", "specs"]
+COPY = ["AGENTS.md", "CLAUDE.md", "GLOSSARY.md", ".mcp.json", ".agents", ".claude", ".cursor", ".github", "docs", "specs"]
 
 
 class RepositoryCheck(unittest.TestCase):

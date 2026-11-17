@@ -7,7 +7,7 @@ status: stable
 ---
 # Harness memory is off; the repository is the memory
 
-Claude Code, Copilot, Codex and Cursor each offer a memory that stores notes on one machine or account and reloads them at session start. Those notes drift (a fact from March is loaded with the same confidence in June), bloat (they load whole), and do not travel (unreviewed, unversioned, invisible to the team and the next harness). We switch memory off in the committed settings and route what it would capture into files: corrections into rules in `AGENTS.md`, decisions into ADRs, terms into `CONTEXT.md`, intent into specs, history into `docs/log.md`, working notes into the ignored `.scratch/`.
+Claude Code, Copilot, Codex and Cursor each offer a memory that stores notes on one machine or account and reloads them at session start. Those notes drift (a fact from March is loaded with the same confidence in June), bloat (they load whole), and do not travel (unreviewed, unversioned, invisible to the team and the next harness). We switch memory off in the committed settings and route what it would capture into files: corrections into rules in `AGENTS.md`, decisions into ADRs, terms into `GLOSSARY.md`, intent into specs, history into `docs/log.md`, working notes into the ignored `.scratch/`.
 
 ## Consequences
 

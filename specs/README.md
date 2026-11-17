@@ -20,7 +20,7 @@ Both carry Open Knowledge Format frontmatter (`type: Specification` and `type: P
 
 Sections in this order, headings as written:
 
-- `## Intent`: one paragraph, in the terms of `../CONTEXT.md`, on what the user gets and why.
+- `## Intent`: one paragraph, in the terms of `../GLOSSARY.md`, on what the user gets and why.
 - `## User scenarios`: one `###` subsection per user story, highest priority first, marked `(P1)`, `(P2)`, each with acceptance scenarios in Given/When/Then form. Every story is testable on its own.
 - `## Requirements`: numbered `FR-001`, `FR-002`, one testable sentence each, with the RFC 2119 keywords in capitals: MUST and MUST NOT for hard requirements, SHOULD and SHOULD NOT for strong defaults that need a reason to deviate, MAY for options. Nothing else in the spec uses these words in capitals. Write `[NEEDS CLARIFICATION: ...]` instead of guessing.
 - `## Success criteria`: numbered `SC-001`, measurable outcomes that do not mention technology.

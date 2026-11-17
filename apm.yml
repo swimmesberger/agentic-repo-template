@@ -1,15 +1,25 @@
-# Agent Package Manager manifest (optional). `apm install` deploys the skills below into the
-# cross-tool .agents/skills/ folder and writes apm.lock.yaml; commit both. Claude Code reads
-# them through the .claude/skills symlink. AGENTS.md is written by hand: do not use `apm compile`.
-name: TODO-project-name
-version: 0.1.0
-description: TODO
+# Agent Package Manager manifest. `apm install` deploys the skills below into the cross-tool
+# .agents/skills/ folder and writes apm.lock.yaml; both are committed, so a clone works without APM.
+# Claude Code reads them through the .claude/skills symlink. AGENTS.md is written by hand: do not
+# use `apm compile`. Update the pin with care: the skills' paths and file names move upstream.
+name: agentic-repo-template
+version: 0.2.0
+description: Repository layout for coding agents
 targets:
   - agent-skills
 dependencies:
   apm:
-    - mattpocock/skills/skills/productivity/grilling#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
-    - mattpocock/skills/skills/engineering/domain-modeling#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
-    - mattpocock/skills/skills/engineering/tdd#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
-    - mattpocock/skills/skills/engineering/code-review#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
+    - mattpocock/skills/skills/productivity/grilling#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/productivity/grill-me#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/grill-with-docs#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/domain-modeling#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/to-spec#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/to-tickets#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/implement#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/tdd#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/code-review#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/diagnosing-bugs#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/engineering/research#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/productivity/handoff#5863806dd4e15c63174bee4e7515a4256792ecfa
+    - mattpocock/skills/skills/productivity/writing-for-agents#5863806dd4e15c63174bee4e7515a4256792ecfa
   mcp: []

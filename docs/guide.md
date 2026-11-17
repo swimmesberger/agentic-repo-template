@@ -15,10 +15,12 @@ This folder is what an agent knows about the project beyond the code. It is an O
 
 | Kind of knowledge | Lives in | Kind | Loaded |
 |---|---|---|---|
-| Terms and their meaning, and only that | `../CONTEXT.md` | primary | on demand, pointed to from `AGENTS.md` |
+| Terms and their meaning, and only that | `../GLOSSARY.md` | primary | on demand, pointed to from `AGENTS.md` |
 | Decisions that are hard to reverse | `adr/` | primary | on demand |
 | What a feature must do, and how it is built | `../specs/` | primary | per feature |
 | How the system is shaped and why | `architecture.md` and other compiled pages | secondary, compiled from code, ADRs and sources | on demand |
+| How the engineering skills find the tracker and the domain docs | `agents/` | primary, seeded from the skills' setup | by the skills |
+| How we work: steps, practices, skills | `workflow.md` | secondary | on demand, pointed to from `AGENTS.md` |
 | Raw material as received: notes, mails, research, requirements from outside | `sources/` | primary, never edited | when a compiled page needs checking |
 | What changed in this folder and why | `log.md` | newest first, entries never edited | on demand |
 | Files that cannot carry frontmatter (PDF, HTML, office files) | `../raw/`, outside the bundle | primary, never edited | when a source page points there |

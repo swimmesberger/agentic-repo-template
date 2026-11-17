@@ -48,7 +48,7 @@ The OKF `status` field is the ADR's state: `draft` while proposed, `stable` once
 ## Rules
 
 - ADRs are immutable once accepted. A changed decision gets a new ADR that supersedes the old one; the old one gets `status: deprecated` and `superseded_by: NNNN`, and nothing else changes.
-- Write in the terms of `../../CONTEXT.md` at the repository root. If a decision changes a term, update the glossary in the same change.
+- Write in the terms of `../../GLOSSARY.md` at the repository root. If a decision changes a term, update the glossary in the same change.
 - Link the ADR from the pull request that implements it.
 - Agents write ADRs through the `adr` skill, which follows this file.
 

@@ -9,7 +9,7 @@ status: draft
 
 TODO: one sentence on the domain.
 
-This file is the glossary and nothing else: the project's own terms, one or two sentences each, opinionated, with the words to avoid. No general programming concepts, project facts, instructions or decisions; those live in `AGENTS.md`, `docs/`, `specs/` and `docs/adr/`. The name `CONTEXT.md` is the one public domain-modeling skills look for (ADR 0004).
+This file is the glossary and nothing else: the project's own terms, one or two sentences each, opinionated, with the words to avoid. No general programming concepts, project facts, instructions or decisions; those live in `AGENTS.md`, `docs/`, `specs/` and `docs/adr/`. The name `GLOSSARY.md` is the one public domain-modeling skills look for (ADR 0004).
 
 ## Language
 

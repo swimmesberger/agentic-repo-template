@@ -171,7 +171,7 @@ class Checker:
             self.findings.append("docs/index.md: missing; it is the map of the knowledge bundle")
             return
         pages = [p for p in walk(docs, "*.md") if p.name not in {"index.md", "log.md"}]
-        for page in pages + list(walk(self.root / "specs", "*.md")) + [self.root / "CONTEXT.md"]:
+        for page in pages + list(walk(self.root / "specs", "*.md")) + [self.root / "GLOSSARY.md"]:
             if not page.exists():
                 continue
             fm, _ = frontmatter(page)
