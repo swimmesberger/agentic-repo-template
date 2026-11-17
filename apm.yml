@@ -1,0 +1,15 @@
+# Agent Package Manager manifest (optional). `apm install` deploys the skills below into the
+# cross-tool .agents/skills/ folder and writes apm.lock.yaml; commit both. Claude Code reads
+# them through the .claude/skills symlink. AGENTS.md is written by hand: do not use `apm compile`.
+name: TODO-project-name
+version: 0.1.0
+description: TODO
+targets:
+  - agent-skills
+dependencies:
+  apm:
+    - mattpocock/skills/skills/productivity/grilling#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
+    - mattpocock/skills/skills/engineering/domain-modeling#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
+    - mattpocock/skills/skills/engineering/tdd#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
+    - mattpocock/skills/skills/engineering/code-review#1631f1c81fd704e1e8c0a212a2c592cfc608afcc
+  mcp: []

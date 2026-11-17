@@ -1,0 +1,1 @@
+The agent instructions for this repository live in `AGENTS.md` at the root and in subfolders. Read them first; this file exists only so Copilot surfaces that do not read `AGENTS.md` still find the way.

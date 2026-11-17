@@ -1,0 +1,6 @@
+.env
+.env.*
+.scratch/
+__pycache__/
+apm_modules/
+.DS_Store
